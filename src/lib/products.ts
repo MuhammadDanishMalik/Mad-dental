@@ -23,7 +23,7 @@ export interface RichSection {
 
 export interface Product {
   id: string;
-  slug: string;
+  handle: string;
   badge: string;
   image: string;
   title: string;
@@ -38,7 +38,7 @@ export interface Product {
 export const products: Product[] = [
   {
     id: "1",
-    slug: "3-in-one-bundle",
+    handle: "free-mad-teeth-whitening-foam-with-mad-dental-pro-white-strips-mad-teeth-whitening-powder-highly-recommended-20-extra-discount",
     badge: "Sale",
     image: "/pack3.webp",
     title: "3 in one get 20% off on this Deal, 🔥 EXCLUSIVE BUNDLE DEAL🔥",
@@ -129,7 +129,7 @@ export const products: Product[] = [
   },
   {
     id: "2",
-    slug: "20-extra-exclusive",
+    handle: "teeth-whitening-foam-highly-recommended-20-extra-discount-copy",
     badge: "Sale",
     image: "/powder.webp",
     title: "Get 20% Extra 🔥 EXCLUSIVE BUNDLE DEAL🔥",
@@ -163,7 +163,7 @@ export const products: Product[] = [
   },
   {
     id: "3",
-    slug: "extra-40-pack",
+    handle: "pack-of-3-teeth-whitening-powder-highly-recommended-20-extra-discount-copy-copy",
     badge: "Sale",
     image: "/foam.webp",
     title: "get extra 40% on PACKof one get 20% off on this Deal, 🔥 EXCLUSIVE BUNDLE DEAL🔥",
@@ -198,7 +198,7 @@ export const products: Product[] = [
   },
   {
     id: "4",
-    slug: "pack-of-three-bundle",
+    handle: "pack-of-2-teeth-whitening-powder-highly-recommended-20-extra-discount-copy",
     badge: "Sale",
     image: "/pack2promo.png",
     title: "Pack of Three, 3 in one get 20% off on this Deal, 🔥 EXCLUSIVE BUNDLE DEAL🔥",
@@ -249,7 +249,7 @@ export const products: Product[] = [
   },
   {
     id: "5",
-    slug: "pack-of-two-deal",
+    handle: "teeth-whitening-powder-highly-recommended-20-extra-discount-copy",
     badge: "Sale",
     image: "/pack2.png",
     title: "Pack of Two, 2 in one get 15% off on this Deal, 🔥 EXCLUSIVE BUNDLE DEAL🔥",
@@ -282,7 +282,7 @@ export const products: Product[] = [
   },
   {
     id: "6",
-    slug: "40-off-strips",
+    handle: "dental-pro-white-strips-teeth-whitening-powder-highly-recommended-20-extra-discount-copy",
     badge: "Sale",
     image: "/promo40.png",
     title: "40% OFF on Whitening Strips – 🔥 LIMITED TIME DEAL🔥",
