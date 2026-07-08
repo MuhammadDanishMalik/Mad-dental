@@ -1,0 +1,466 @@
+/* ─── Layout ─── */
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  background: #fff;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+/* ─── Left Panel ─── */
+.left {
+  padding: 56px 64px 80px 8%;
+  background: #fff;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.storeName {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 40px;
+  text-decoration: none;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+/* ─── Sections ─── */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.signInLink {
+  font-size: 0.8rem;
+  color: var(--accent-blue);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: opacity 0.2s;
+}
+
+.signInLink:hover {
+  opacity: 0.75;
+}
+
+/* ─── Inputs ─── */
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.input {
+  width: 100%;
+  padding: 15px 16px;
+  border: 1.5px solid #c8c8c8;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  font-family: inherit;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.input:focus {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(59, 79, 168, 0.12);
+}
+
+.input::placeholder {
+  color: #aaa;
+}
+
+/* Select */
+.selectLabel {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  position: absolute;
+  top: 8px;
+  left: 14px;
+  pointer-events: none;
+}
+
+.inputGroup {
+  position: relative;
+}
+
+.select {
+  width: 100%;
+  padding: 24px 16px 12px;
+  border: 1.5px solid #c8c8c8;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  font-family: inherit;
+  background: #fff;
+  appearance: none;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.select:focus {
+  border-color: var(--accent-blue);
+}
+
+/* Checkbox */
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--accent-blue);
+}
+
+/* ─── Radio Cards ─── */
+.radioCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border: 1.5px solid #c8c8c8;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  background: #fff;
+}
+
+.radioCard + .radioCard {
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  margin-top: -1px;
+}
+
+.radioCard:first-of-type {
+  border-radius: 8px 8px 0 0;
+}
+
+.radioCard:only-of-type {
+  border-radius: 8px;
+}
+
+.radioCardSelected {
+  border-color: var(--accent-blue);
+  background: #f0f4ff;
+  z-index: 1;
+  position: relative;
+}
+
+.radioCardLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.radioInput {
+  accent-color: var(--accent-blue);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.radioCardPrice {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* Payment subtitle */
+.paymentSubtitle {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: -4px;
+}
+
+/* ─── Complete Button ─── */
+.completeBtn {
+  width: 100%;
+  padding: 18px 0;
+  background: var(--accent-blue);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.completeBtn:hover {
+  background: var(--accent-blue-hover);
+  transform: translateY(-1px);
+}
+
+.completeBtn:active {
+  transform: translateY(0);
+}
+
+/* ─── Footer ─── */
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding-top: 8px;
+}
+
+.footerLink {
+  font-size: 0.75rem;
+  color: var(--accent-blue);
+  text-decoration: underline;
+  transition: opacity 0.2s;
+}
+
+.footerLink:hover {
+  opacity: 0.7;
+}
+
+/* ─── Right Panel ─── */
+.right {
+  padding: 56px 8% 80px 56px;
+  background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Product row */
+.orderItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.productThumbWrapper {
+  position: relative;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #fff;
+}
+
+.productThumb {
+  object-fit: cover;
+}
+
+.qtyBadge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 20px;
+  height: 20px;
+  background: #555;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.68rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orderItemDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.orderItemTitle {
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.orderItemPrice {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 8px 0;
+}
+
+/* Summary rows */
+.summaryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.summaryLabel {
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.infoIcon {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  cursor: help;
+}
+
+.summaryValue {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Total row */
+.totalRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.totalLabel {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.totalRight {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.totalCurrency {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.totalAmount {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ─── Success Screen ─── */
+.successScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 16px;
+  background: #fff;
+  padding: 2rem;
+}
+
+.successIcon {
+  width: 64px;
+  height: 64px;
+  background: var(--accent-blue);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.successTitle {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.successText {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-align: center;
+  max-width: 360px;
+  line-height: 1.6;
+}
+
+.successBtn {
+  margin-top: 8px;
+  padding: 12px 32px;
+  background: var(--accent-blue);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.successBtn:hover {
+  background: var(--accent-blue-hover);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 900px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .right {
+    order: -1;
+    padding: 32px 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .left {
+    padding: 36px 2rem 56px;
+    border-right: none;
+  }
+}
