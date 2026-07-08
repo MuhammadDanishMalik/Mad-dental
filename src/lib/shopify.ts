@@ -1,7 +1,10 @@
 import { ShopifyResponse } from "./shopify-types";
 
-const domain = process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN!;
-const token = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN!;
+const rawDomain = process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN || "";
+const token = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN || "";
+
+// Strip https:// or http:// and any trailing slashes just in case they were added in Vercel
+const domain = rawDomain.replace(/^https?:\/\//, "").replace(/\/$/, "");
 
 if (!domain || !token) {
   console.warn(
