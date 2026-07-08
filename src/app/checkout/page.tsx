@@ -1,282 +1,127 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
-import Image from "next/image";
+/**
+ * Checkout page — no custom payment form.
+ *
+ * On mount this page:
+ *  1. Reads the Shopify cartId from the cookie.
+ *  2. Fetches the live cart via getCart().
+ *  3. Immediately redirects to cart.checkoutUrl — Shopify's hosted,
+ *     PCI-compliant checkout where the customer enters shipping & payment.
+ *     Shopify creates the order automatically; no extra code needed here.
+ *
+ * If the cart is empty or missing the user is shown an error with a
+ * "Go to Cart" link instead of a dead redirect.
+ */
+
+import { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
-import { products } from "@/lib/products";
+import { getCart } from "@/lib/cart";
+import { getCartIdFromCookie } from "@/lib/cart-cookie";
 import styles from "./page.module.css";
 
-const SHIPPING = 195;
+type Status = "loading" | "redirecting" | "empty" | "error";
 
-function CheckoutContent() {
-  const params = useSearchParams();
-  const slug = params.get("product") ?? products[0].slug;
-  const qty = Number(params.get("qty") ?? 1);
-  const product = products.find((p) => p.slug === slug) ?? products[0];
+function CheckoutRedirect() {
+  const [status, setStatus] = useState<Status>("loading");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const subtotal = product.salePrice * qty;
-  const total = subtotal + SHIPPING;
+  useEffect(() => {
+    async function redirect() {
+      try {
+        // 1. Read persisted cartId from cookie
+        const cartId = getCartIdFromCookie();
 
-  const [billing, setBilling] = useState<"same" | "different">("same");
-  const [placed, setPlaced] = useState(false);
+        if (!cartId) {
+          setStatus("empty");
+          return;
+        }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setPlaced(true);
-  };
+        // 2. Fetch live cart from Shopify
+        const cart = await getCart(cartId);
 
-  if (placed) {
+        // 3. Guard: empty or missing cart
+        if (!cart || cart.totalQuantity === 0) {
+          setStatus("empty");
+          return;
+        }
+
+        // 4. ✅ THE REDIRECT — send browser to Shopify's hosted checkout
+        setStatus("redirecting");
+        window.location.href = cart.checkoutUrl;
+
+      } catch (err) {
+        console.error("[checkout] redirect error:", err);
+        setErrorMsg(
+          err instanceof Error ? err.message : "An unexpected error occurred."
+        );
+        setStatus("error");
+      }
+    }
+
+    redirect();
+  }, []);
+
+  // ── Loading / redirecting ──────────────────────────────────────────────────
+  if (status === "loading" || status === "redirecting") {
     return (
-      <div className={styles.successScreen}>
-        <div className={styles.successIcon}>✓</div>
-        <h2 className={styles.successTitle}>Order Placed!</h2>
-        <p className={styles.successText}>
-          Thank you for your order. We will contact you soon to confirm delivery.
+      <div className={styles.centerScreen}>
+        <div className={styles.spinner} />
+        <p className={styles.redirectMsg}>
+          {status === "loading"
+            ? "Preparing your checkout…"
+            : "Redirecting to secure checkout…"}
         </p>
-        <Link href="/" className={styles.successBtn}>
+        <p className={styles.redirectSub}>
+          You are being sent to Shopify&apos;s secure, PCI-compliant payment page.
+        </p>
+      </div>
+    );
+  }
+
+  // ── Empty cart ─────────────────────────────────────────────────────────────
+  if (status === "empty") {
+    return (
+      <div className={styles.centerScreen}>
+        <div className={styles.emptyIcon}>🛒</div>
+        <h1 className={styles.emptyTitle}>Your cart is empty</h1>
+        <p className={styles.emptyText}>
+          Add items to your cart before checking out.
+        </p>
+        <Link href="/cart" className={styles.actionBtn} id="go-to-cart-btn">
+          Go to Cart
+        </Link>
+        <Link href="/" className={styles.secondaryBtn}>
           Continue Shopping
         </Link>
       </div>
     );
   }
 
+  // ── Error ──────────────────────────────────────────────────────────────────
   return (
-    <div className={styles.wrapper}>
-      {/* ─── Left Panel ─── */}
-      <div className={styles.left}>
-        <Link href="/" className={styles.storeName}>Mad Dental Care</Link>
-
-        <form className={styles.form} onSubmit={handleSubmit} noValidate>
-
-          {/* Contact */}
-          <section className={styles.section}>
-            <div className={styles.sectionHeader}>
-              <h2 className={styles.sectionTitle}>Contact</h2>
-              <button type="button" className={styles.signInLink}>Sign in</button>
-            </div>
-            <div className={styles.inputGroup}>
-              <input
-                id="contact-email"
-                type="text"
-                placeholder="Email or mobile phone number"
-                className={styles.input}
-                required
-              />
-            </div>
-          </section>
-
-          {/* Delivery */}
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Delivery</h2>
-
-            <div className={styles.inputGroup}>
-              <label className={styles.selectLabel}>Country/Region</label>
-              <select id="country" className={styles.select} defaultValue="PK">
-                <option value="PK">Pakistan</option>
-                <option value="US">United States</option>
-                <option value="GB">United Kingdom</option>
-              </select>
-            </div>
-
-            <div className={styles.row}>
-              <input
-                id="first-name"
-                type="text"
-                placeholder="First name (optional)"
-                className={styles.input}
-              />
-              <input
-                id="last-name"
-                type="text"
-                placeholder="Last name"
-                className={styles.input}
-                required
-              />
-            </div>
-
-            <div className={styles.inputGroup}>
-              <input
-                id="address"
-                type="text"
-                placeholder="Address"
-                className={styles.input}
-                required
-              />
-            </div>
-
-            <div className={styles.row}>
-              <input
-                id="city"
-                type="text"
-                placeholder="City"
-                className={styles.input}
-                required
-              />
-              <input
-                id="postal"
-                type="text"
-                placeholder="Postal code (optional)"
-                className={styles.input}
-              />
-            </div>
-
-            <div className={styles.inputGroup}>
-              <input
-                id="phone"
-                type="tel"
-                placeholder="Phone"
-                className={styles.input}
-                required
-              />
-            </div>
-
-            <label className={styles.checkboxLabel} htmlFor="save-info">
-              <input id="save-info" type="checkbox" className={styles.checkbox} />
-              Save this information for next time
-            </label>
-          </section>
-
-          {/* Shipping Method */}
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Shipping method</h2>
-            <label className={`${styles.radioCard} ${styles.radioCardSelected}`} htmlFor="shipping-standard">
-              <span className={styles.radioCardLeft}>
-                <input
-                  id="shipping-standard"
-                  type="radio"
-                  name="shipping"
-                  defaultChecked
-                  className={styles.radioInput}
-                  readOnly
-                />
-                Standard
-              </span>
-              <span className={styles.radioCardPrice}>Rs {SHIPPING}.00</span>
-            </label>
-          </section>
-
-          {/* Payment */}
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Payment</h2>
-            <p className={styles.paymentSubtitle}>All transactions are secure and encrypted.</p>
-            <label className={`${styles.radioCard} ${styles.radioCardSelected}`} htmlFor="payment-cod">
-              <span className={styles.radioCardLeft}>
-                <input
-                  id="payment-cod"
-                  type="radio"
-                  name="payment"
-                  defaultChecked
-                  className={styles.radioInput}
-                  readOnly
-                />
-                Cash on Delivery (COD)
-              </span>
-            </label>
-          </section>
-
-          {/* Billing Address */}
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Billing address</h2>
-            <label
-              className={`${styles.radioCard} ${billing === "same" ? styles.radioCardSelected : ""}`}
-              htmlFor="billing-same"
-            >
-              <span className={styles.radioCardLeft}>
-                <input
-                  id="billing-same"
-                  type="radio"
-                  name="billing"
-                  value="same"
-                  checked={billing === "same"}
-                  onChange={() => setBilling("same")}
-                  className={styles.radioInput}
-                />
-                Same as shipping address
-              </span>
-            </label>
-            <label
-              className={`${styles.radioCard} ${billing === "different" ? styles.radioCardSelected : ""}`}
-              htmlFor="billing-different"
-            >
-              <span className={styles.radioCardLeft}>
-                <input
-                  id="billing-different"
-                  type="radio"
-                  name="billing"
-                  value="different"
-                  checked={billing === "different"}
-                  onChange={() => setBilling("different")}
-                  className={styles.radioInput}
-                />
-                Use a different billing address
-              </span>
-            </label>
-          </section>
-
-          <button type="submit" id="complete-order-btn" className={styles.completeBtn}>
-            Complete order
-          </button>
-
-          <footer className={styles.footer}>
-            <a href="#" className={styles.footerLink}>Refund policy</a>
-            <a href="#" className={styles.footerLink}>Shipping</a>
-            <a href="#" className={styles.footerLink}>Privacy policy</a>
-            <a href="#" className={styles.footerLink}>Terms of service</a>
-          </footer>
-        </form>
-      </div>
-
-      {/* ─── Right Panel ─── */}
-      <div className={styles.right}>
-        <div className={styles.orderItem}>
-          <div className={styles.productThumbWrapper}>
-            <Image
-              src={product.image}
-              alt={product.title}
-              fill
-              className={styles.productThumb}
-              sizes="64px"
-            />
-            <span className={styles.qtyBadge}>{qty}</span>
-          </div>
-          <div className={styles.orderItemDetails}>
-            <p className={styles.orderItemTitle}>{product.title}</p>
-          </div>
-          <p className={styles.orderItemPrice}>Rs {subtotal.toLocaleString()}.00</p>
-        </div>
-
-        <div className={styles.divider} />
-
-        <div className={styles.summaryRow}>
-          <span className={styles.summaryLabel}>Subtotal</span>
-          <span className={styles.summaryValue}>Rs {subtotal.toLocaleString()}.00</span>
-        </div>
-        <div className={styles.summaryRow}>
-          <span className={styles.summaryLabel}>
-            Shipping <span className={styles.infoIcon}>ⓘ</span>
-          </span>
-          <span className={styles.summaryValue}>Rs {SHIPPING}.00</span>
-        </div>
-
-        <div className={styles.divider} />
-
-        <div className={styles.totalRow}>
-          <span className={styles.totalLabel}>Total</span>
-          <div className={styles.totalRight}>
-            <span className={styles.totalCurrency}>PKR</span>
-            <span className={styles.totalAmount}>Rs {total.toLocaleString()}.00</span>
-          </div>
-        </div>
-      </div>
+    <div className={styles.centerScreen}>
+      <div className={styles.errorIcon}>⚠️</div>
+      <h1 className={styles.emptyTitle}>Checkout unavailable</h1>
+      <p className={styles.emptyText}>{errorMsg}</p>
+      <Link href="/cart" className={styles.actionBtn} id="go-to-cart-error-btn">
+        Return to Cart
+      </Link>
     </div>
   );
 }
 
 export default function CheckoutPage() {
   return (
-    <Suspense fallback={<div className={styles.loading}>Loading...</div>}>
-      <CheckoutContent />
+    <Suspense
+      fallback={
+        <div className={styles.centerScreen}>
+          <div className={styles.spinner} />
+          <p className={styles.redirectMsg}>Loading…</p>
+        </div>
+      }
+    >
+      <CheckoutRedirect />
     </Suspense>
   );
 }

@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useParams, useRouter, notFound } from "next/navigation";
+import { useParams, useRouter, notFound, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { products } from "@/lib/products";
+import { createCart, addToCart } from "@/lib/cart";
+import { getCartIdFromCookie, setCartIdCookie } from "@/lib/cart-cookie";
 import Header from "@/components/Header";
 import styles from "./page.module.css";
 
@@ -26,25 +28,62 @@ function RichText({ text }: { text: string }) {
 
 export default function ProductDetailPage() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const slug = params?.slug as string;
   const product = products.find((p) => p.slug === slug);
 
   const [qty, setQty] = useState(1);
-  const [added, setAdded] = useState(false);
+  const [cartLoading, setCartLoading] = useState(false);
+  const [cartError, setCartError] = useState<string | null>(null);
 
   if (!product) return notFound();
 
-  const goToCheckout = () => {
-    router.push(`/checkout?product=${product.slug}&qty=${qty}`);
-  };
+  /**
+   * The Shopify variant GID must come from your Shopify store.
+   * Pass it as ?variantId=gid://shopify/ProductVariant/123 in the URL,
+   * or hard-code it in the product data once you have it.
+   * Without a real variantId the cart mutation will fail — this is expected
+   * until you wire up real Shopify product IDs.
+   */
+  const variantId =
+    searchParams.get("variantId") ??
+    (product as { variantId?: string }).variantId ??
+    "";
 
-  const handleAddToCart = () => {
-    setAdded(true);
-    setTimeout(() => {
-      setAdded(false);
-      goToCheckout();
-    }, 600);
+  const handleAddToCart = async (redirect: boolean) => {
+    if (!variantId) {
+      setCartError(
+        "No Shopify variant ID found. Add ?variantId=gid://shopify/ProductVariant/YOUR_ID to the URL."
+      );
+      return;
+    }
+    setCartLoading(true);
+    setCartError(null);
+    try {
+      const existingCartId = getCartIdFromCookie();
+      let cart;
+      if (existingCartId) {
+        cart = await addToCart(existingCartId, variantId, qty);
+      } else {
+        cart = await createCart([{ merchandiseId: variantId, quantity: qty }]);
+      }
+      setCartIdCookie(cart.id);
+      if (redirect) {
+        // "Buy it now" → go straight to Shopify checkout
+        window.location.href = cart.checkoutUrl;
+      } else {
+        // "Add to cart" → go to cart page
+        router.push("/cart");
+      }
+    } catch (err) {
+      console.error(err);
+      setCartError(
+        err instanceof Error ? err.message : "Failed to add to cart."
+      );
+    } finally {
+      setCartLoading(false);
+    }
   };
 
   return (
@@ -123,15 +162,25 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Action Buttons */}
+              {cartError && (
+                <p className={styles.cartErrorMsg}>{cartError}</p>
+              )}
+
               <button
                 className={styles.addToCart}
                 id="add-to-cart-btn"
-                onClick={handleAddToCart}
+                onClick={() => handleAddToCart(false)}
+                disabled={cartLoading}
               >
-                {added ? "Added ✓" : "Add to cart"}
+                {cartLoading ? "Adding…" : "Add to cart"}
               </button>
 
-              <button className={styles.buyNow} id="buy-now-btn" onClick={goToCheckout}>
+              <button
+                className={styles.buyNow}
+                id="buy-now-btn"
+                onClick={() => handleAddToCart(true)}
+                disabled={cartLoading}
+              >
                 Buy it now
               </button>
 
