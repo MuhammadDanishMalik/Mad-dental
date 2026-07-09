@@ -18,22 +18,7 @@
 
 .logo {
   display: flex;
-  align-items: baseline;
-  gap: 2px;
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
-
-.logoMad {
-  color: var(--accent-blue);
-  font-style: italic;
-}
-
-.logoDental {
-  color: var(--text-primary);
-  font-size: 1rem;
-  font-weight: 500;
+  align-items: center;
 }
 
 .nav {
@@ -43,9 +28,10 @@
 }
 
 .navLink {
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: var(--text-primary);
+  text-decoration: none;
   transition: color 0.2s;
 }
 
@@ -53,12 +39,34 @@
   color: var(--accent-blue);
 }
 
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-left: 2rem;
+}
+
+.iconBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.iconBtn:hover {
+  transform: scale(1.1);
+}
+
 .cartLink {
   position: relative;
-  font-size: 1.2rem;
   text-decoration: none;
   display: flex;
   align-items: center;
+  color: var(--text-primary);
   transition: transform 0.2s;
 }
 

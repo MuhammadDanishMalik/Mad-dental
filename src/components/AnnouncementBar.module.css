@@ -1,0 +1,38 @@
+.bar {
+  background-color: var(--accent-blue);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.highlight {
+  font-weight: 700;
+}
+
+@media (max-width: 1024px) {
+  .content {
+    justify-content: flex-start;
+    animation: scrollText 15s linear infinite;
+  }
+}
+
+@keyframes scrollText {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

@@ -17,14 +17,131 @@
   padding: 32px 0 20px;
 }
 
+/* Hero Section */
+.hero {
+  background-color: var(--accent-blue);
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.heroContent h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.heroContent p {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+/* Shop Layout (Sidebar + Grid) */
+.shopLayout {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* Sidebar Filters */
+.sidebar {
+  width: 250px;
+  flex-shrink: 0;
+}
+
+.sidebarTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.filterGroup {
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+}
+
+.filterGroupBtn {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.filterOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.priceRange {
+  margin-top: 16px;
+}
+
+.rangeSlider {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.priceInputs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.inputWrap {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 4px;
+  width: 100px;
+}
+
+.currencySymbol {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-right: 4px;
+}
+
+.inputWrap input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.9rem;
+}
+
+/* Product Area */
+.productArea {
+  flex: 1;
+}
+
 /* Toolbar */
 .toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0 24px;
-  gap: 1rem;
-  flex-wrap: wrap;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
 }
 
 .filters {
@@ -33,31 +150,34 @@
   gap: 8px;
 }
 
-.filterLabel,
 .sortLabel {
-  font-size: 0.82rem;
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-
-.filterBtn,
-.sortBtn {
-  background: transparent;
-  border: none;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--text-primary);
   font-weight: 500;
-  padding: 4px 6px;
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  cursor: pointer;
-  transition: color 0.2s;
 }
 
-.filterBtn:hover,
-.sortBtn:hover {
-  color: var(--accent-blue);
+.viewToggles {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #f5f5f5;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.viewBtn {
+  background: transparent;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+
+.activeViewBtn {
+  background: #a8e6cf; /* Light green from screenshot */
+  color: #333;
 }
 
 .chevron {
@@ -76,14 +196,13 @@
   color: var(--text-secondary);
 }
 
-/* Grid */
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1200px) {
   .grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -214,4 +333,79 @@
 .card:hover .cartBtn {
   background: var(--accent-blue);
   color: #fff;
+}
+
+/* About Section */
+.aboutSection {
+  margin: 60px 0;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+
+.aboutSection h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.aboutSection p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+/* Newsletter Section */
+.newsletterSection {
+  background: #E5EFE5;
+  padding: 60px 20px;
+  text-align: center;
+  margin: 60px -2rem -60px; /* pull out of container bounds */
+}
+
+.newsletterContent {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.newsletterIcon {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.newsletterContent h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.newsletterContent p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 30px;
+}
+
+.subscribeForm {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--accent-blue);
+  padding-bottom: 8px;
+}
+
+.subscribeForm input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  padding: 8px 0;
+}
+
+.subscribeForm button {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-weight: 600;
+  cursor: pointer;
 }
