@@ -38,30 +38,32 @@ export default function Header() {
             priority
           />
         </Link>
-        <nav className={styles.nav}>
-          <Link href="/" className={styles.navLink}>HOME</Link>
-          <Link href="/" className={styles.navLink}>SHOP NOW</Link>
-          <Link href="/" className={styles.navLink}>BUNDLE & SAVE</Link>
-          <Link href="/" className={styles.navLink}>EXPLORE ▾</Link>
-          <div className={styles.icons}>
-            <button className={styles.iconBtn} aria-label="Search">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-            </button>
-            <Link href="/cart" className={styles.cartLink} id="header-cart-btn">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <path d="M16 10a4 4 0 0 1-8 0"></path>
-              </svg>
-              {itemCount > 0 && (
-                <span className={styles.cartBadge}>{itemCount}</span>
-              )}
-            </Link>
-          </div>
-        </nav>
+        <div className={styles.searchContainer}>
+          <input 
+            type="text" 
+            placeholder="Search products" 
+            className={styles.searchInput}
+          />
+          <button className={styles.searchBtn} aria-label="Search">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div className={styles.icons}>
+          <Link href="/cart" className={styles.cartLink} id="header-cart-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            {itemCount > 0 && (
+              <span className={styles.cartBadge}>{itemCount}</span>
+            )}
+          </Link>
+        </div>
       </div>
     </header>
   );
