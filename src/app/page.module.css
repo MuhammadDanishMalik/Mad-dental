@@ -4,6 +4,12 @@
   padding-bottom: 60px;
 }
 
+@media (max-width: 768px) {
+  .main {
+    padding-bottom: 100px;
+  }
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -45,16 +51,63 @@
   align-items: flex-start;
 }
 
+@media (max-width: 768px) {
+  .shopLayout {
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
 /* Sidebar Filters */
 .sidebar {
   width: 250px;
   flex-shrink: 0;
 }
 
+@media (max-width: 768px) {
+  .sidebar {
+    display: none; /* Hide sidebar completely on mobile */
+  }
+}
+
 .sidebarTitle {
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 24px;
+}
+
+.filterDetails {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.filterSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  cursor: pointer;
+  list-style: none; /* hide default triangle */
+}
+
+.filterSummary::-webkit-details-marker {
+  display: none;
+}
+
+.filterChevron {
+  transition: transform 0.3s ease;
+  color: var(--text-primary);
+}
+
+.filterDetails[open] .filterChevron {
+  transform: rotate(180deg);
+}
+
+.filterContent {
+  padding: 0 16px 16px;
+  display: flex;
+  flex-direction: column;
 }
 
 .filterGroup {
@@ -144,56 +197,47 @@
   margin-bottom: 24px;
 }
 
-.filters {
+.mobileSortArea {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 24px;
 }
 
 .sortLabel {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--text-primary);
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chevron {
+  font-size: 0.75rem;
+  margin-top: 2px;
 }
 
 .viewToggles {
   display: flex;
   align-items: center;
-  gap: 4px;
-  background: #f5f5f5;
-  padding: 4px;
-  border-radius: 4px;
+  gap: 8px;
 }
 
 .viewBtn {
-  background: transparent;
+  background: #f5f5f5;
   border: none;
-  padding: 4px 8px;
+  padding: 8px 12px;
   border-radius: 4px;
   cursor: pointer;
-  color: var(--text-secondary);
-  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .activeViewBtn {
   background: #a8e6cf; /* Light green from screenshot */
   color: #333;
-}
-
-.chevron {
-  font-size: 0.65rem;
-  margin-top: 1px;
-}
-
-.sortArea {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.productCount {
-  font-size: 0.82rem;
-  color: var(--text-secondary);
 }
 
 .grid {
@@ -229,16 +273,12 @@
   display: flex;
   flex-direction: column;
   text-decoration: none;
-  background: var(--bg);
-  transition: transform 0.2s, box-shadow 0.2s;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid var(--border);
+  background: transparent;
+  transition: transform 0.2s;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.06);
 }
 
 .imageWrapper {
@@ -247,6 +287,12 @@
   aspect-ratio: 1 / 1;
   background: #f8f8f8;
   overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .imageWrapper {
+    overflow: visible;
+  }
 }
 
 .badge {
@@ -278,9 +324,11 @@
 }
 
 .body {
-  padding: 16px;
+  padding: 16px 8px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   flex: 1;
 }
 
@@ -300,8 +348,8 @@
 .priceRow {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  margin-bottom: 16px;
   margin-top: auto;
 }
 
@@ -314,25 +362,108 @@
 .salePrice {
   font-size: 1.05rem;
   font-weight: 700;
-  color: var(--accent-blue);
+  color: #d82b2b; /* Red as in screenshot */
 }
 
-.cartBtn {
+.hoverActions {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  padding: 12px 0;
-  background: transparent;
-  border: 1.5px solid var(--accent-blue);
-  color: var(--accent-blue);
-  border-radius: 50px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
+  height: 100%;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 10;
 }
 
-.card:hover .cartBtn {
-  background: var(--accent-blue);
-  color: #fff;
+.card:hover .hoverActions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobileActions {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hoverActions {
+    display: none; /* hide desktop hover actions on mobile */
+  }
+  .mobileActions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    position: absolute;
+    bottom: -18px; /* overlap the edge */
+    left: 0;
+    width: 100%;
+    z-index: 10;
+  }
+}
+
+.mobileActionBtn {
+  background: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-primary);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.topActions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.iconActionBtn {
+  background: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-primary);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: background 0.2s, color 0.2s;
+}
+
+.iconActionBtn:hover {
+  background: var(--text-primary);
+  color: #ffffff;
+}
+
+.quickAddBtn {
+  width: 100%;
+  background: #ffffff;
+  color: var(--text-primary);
+  border: none;
+  border-radius: 30px;
+  padding: 12px 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: background 0.2s;
+}
+
+.quickAddBtn:hover {
+  background: #f5f5f5;
 }
 
 /* About Section */
@@ -363,6 +494,12 @@
   margin: 60px -2rem -60px; /* pull out of container bounds */
 }
 
+@media (max-width: 480px) {
+  .newsletterSection {
+    margin: 60px -1rem -60px;
+  }
+}
+
 .newsletterContent {
   max-width: 600px;
   margin: 0 auto;
@@ -378,6 +515,12 @@
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 12px;
+}
+
+@media (max-width: 480px) {
+  .newsletterContent h2 {
+    font-size: 1.5rem;
+  }
 }
 
 .newsletterContent p {

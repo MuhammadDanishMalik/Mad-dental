@@ -1,0 +1,55 @@
+.mobileNav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  border-top: 1px solid var(--border);
+  z-index: 1000;
+  padding: 12px 0;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+}
+
+@media (max-width: 768px) {
+  .mobileNav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+}
+
+.navItem {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.cartIconWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cartBadge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #d82b2b; /* Red badge from screenshot */
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

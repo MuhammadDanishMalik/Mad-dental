@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Footer from "@/components/Footer";
+import MobileNav from "@/components/MobileNav";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ export default function RootLayout({
         <AnnouncementBar />
         {children}
         <Footer />
+        <MobileNav />
       </body>
     </html>
   );

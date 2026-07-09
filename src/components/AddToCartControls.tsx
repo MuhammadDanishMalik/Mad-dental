@@ -89,6 +89,17 @@ export default function AddToCartControls({ variantId }: { variantId: string }) 
       >
         Buy it now
       </button>
+
+      {/* Sticky footer for mobile */}
+      <div className={styles.stickyFooter}>
+        <button
+          className={styles.stickyAddToCart}
+          onClick={() => handleAddToCart(false)}
+          disabled={cartLoading}
+        >
+          {cartLoading ? "Adding…" : "Add to cart"}
+        </button>
+      </div>
     </>
   );
 }
