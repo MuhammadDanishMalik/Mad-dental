@@ -457,7 +457,7 @@
   .stickyFooter {
     display: block;
     position: fixed;
-    bottom: 0;
+    bottom: calc(60px + env(safe-area-inset-bottom)); /* Lift above mobile nav */
     left: 0;
     width: 100%;
     background: var(--white);

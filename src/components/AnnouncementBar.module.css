@@ -20,8 +20,9 @@
   align-items: center;
   gap: 16px;
   padding-right: 16px;
-  animation: scrollText 20s linear infinite;
+  animation: scrollText 30s linear infinite;
   min-width: 100%;
+  flex-shrink: 0;
 }
 
 .highlight {
