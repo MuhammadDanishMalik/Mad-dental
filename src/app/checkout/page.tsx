@@ -48,11 +48,7 @@ function CheckoutRedirect() {
 
         // 4. ✅ THE REDIRECT — send browser to Shopify's hosted checkout
         setStatus("redirecting");
-        
-        const url = new URL(cart.checkoutUrl);
-        const rawDomain = process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN || "maddantalcares.myshopify.com";
-        url.hostname = rawDomain.replace(/[^a-zA-Z0-9.-]/g, "");
-        window.location.href = url.toString();
+        window.location.href = cart.checkoutUrl;
 
       } catch (err) {
         console.error("[checkout] redirect error:", err);
