@@ -80,8 +80,13 @@ export default function CartPage() {
   // ── Checkout redirect ──────────────────────────────────────────────────────
   const handleCheckout = () => {
     if (!cart || cart.totalQuantity === 0) return;
-    // Redirect to Shopify's hosted checkout
-    window.location.href = cart.checkoutUrl;
+    
+    // Shopify often returns the custom domain (maddentalcares.com) if it's set as primary in Shopify.
+    // We must force the URL to use the myshopify domain, otherwise it redirects back to Vercel and 404s.
+    const url = new URL(cart.checkoutUrl);
+    url.hostname = process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN || "maddantalcares.myshopify.com";
+    
+    window.location.href = url.toString();
   };
 
   // ── Render states ──────────────────────────────────────────────────────────

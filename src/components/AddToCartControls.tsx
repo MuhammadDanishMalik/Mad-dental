@@ -30,7 +30,9 @@ export default function AddToCartControls({ variantId }: { variantId: string }) 
       setCartIdCookie(cart.id);
       if (redirect) {
         // "Buy it now" → go straight to Shopify checkout
-        window.location.href = cart.checkoutUrl;
+        const url = new URL(cart.checkoutUrl);
+        url.hostname = process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN || "maddantalcares.myshopify.com";
+        window.location.href = url.toString();
       } else {
         // "Add to cart" → go to cart page
         router.push("/cart");
