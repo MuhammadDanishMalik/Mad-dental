@@ -50,7 +50,8 @@ function CheckoutRedirect() {
         setStatus("redirecting");
         
         const url = new URL(cart.checkoutUrl);
-        url.hostname = (process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN || "maddantalcares.myshopify.com").trim();
+        const rawDomain = process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN || "maddantalcares.myshopify.com";
+        url.hostname = rawDomain.replace(/[^a-zA-Z0-9.-]/g, "");
         window.location.href = url.toString();
 
       } catch (err) {

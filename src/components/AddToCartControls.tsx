@@ -31,7 +31,8 @@ export default function AddToCartControls({ variantId }: { variantId: string }) 
       if (redirect) {
         // "Buy it now" → go straight to Shopify checkout
         const url = new URL(cart.checkoutUrl);
-        url.hostname = (process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN || "maddantalcares.myshopify.com").trim();
+        const rawDomain = process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN || "maddantalcares.myshopify.com";
+        url.hostname = rawDomain.replace(/[^a-zA-Z0-9.-]/g, "");
         window.location.href = url.toString();
       } else {
         // "Add to cart" → go to cart page
