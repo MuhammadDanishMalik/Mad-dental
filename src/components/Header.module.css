@@ -28,6 +28,25 @@
   gap: 1.5rem;
 }
 
+.hamburger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary);
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+  }
+  .hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 .navLink {
   font-size: 0.85rem;
   font-weight: 500;
