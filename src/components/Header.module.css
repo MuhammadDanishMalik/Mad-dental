@@ -12,6 +12,7 @@
   padding: 0 2rem;
   height: 60px;
   display: flex;
+
   align-items: center;
   justify-content: space-between;
 }
@@ -27,14 +28,6 @@
   gap: 1.5rem;
 }
 
-.hamburger {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--text-primary);
-}
-
 .navLink {
   font-size: 0.85rem;
   font-weight: 500;
@@ -47,55 +40,11 @@
   color: var(--accent-blue);
 }
 
-.searchDropdown {
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
-  padding: 10px 2rem 20px;
-  animation: slideDown 0.2s ease-out forwards;
-}
-
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.searchContainer {
-  display: flex;
-  align-items: center;
-  max-width: 800px;
-  margin: 0 auto;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 8px 16px;
-}
-
-.searchInput {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 0.95rem;
-  background: transparent;
-  color: var(--text-primary);
-}
-
-.searchInput::placeholder {
-  color: var(--text-secondary);
-}
-
-.searchBtn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .icons {
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  margin-left: 2rem;
 }
 
 .iconBtn {
@@ -122,7 +71,9 @@
   transition: transform 0.2s;
 }
 
-.cartLink:hover { transform: scale(1.1); }
+.cartLink:hover {
+  transform: scale(1.1);
+}
 
 .cartBadge {
   position: absolute;
@@ -139,26 +90,4 @@
   align-items: center;
   justify-content: center;
   padding: 0 4px;
-}
-
-@media (max-width: 768px) {
-  .inner {
-    padding: 0 1rem;
-  }
-  
-  .nav {
-    display: none;
-  }
-  
-  .hamburger {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .logo {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-  }
 }
