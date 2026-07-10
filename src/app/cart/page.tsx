@@ -84,7 +84,7 @@ export default function CartPage() {
     // Shopify often returns the custom domain (maddentalcares.com) if it's set as primary in Shopify.
     // We must force the URL to use the myshopify domain, otherwise it redirects back to Vercel and 404s.
     const url = new URL(cart.checkoutUrl);
-    url.hostname = process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN || "maddantalcares.myshopify.com";
+    url.hostname = (process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN || "maddantalcares.myshopify.com").trim();
     
     window.location.href = url.toString();
   };
