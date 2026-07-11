@@ -22,22 +22,15 @@ export async function shopifyFetch<T>(
   query: string,
   variables?: Record<string, unknown>
 ): Promise<T> {
-  let res: Response;
-  try {
-    res = await fetch(ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Shopify-Storefront-Access-Token": token,
-      },
-      body: JSON.stringify({ query, variables }),
-      cache: "no-store",
-    });
-  } catch (err) {
-    throw new Error(
-      `Fetch to ${ENDPOINT} threw an error: ${err instanceof Error ? err.message : String(err)}`
-    );
-  }
+  const res = await fetch(ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Shopify-Storefront-Access-Token": token,
+    },
+    body: JSON.stringify({ query, variables }),
+    cache: "no-store",
+  });
 
   if (!res.ok) {
     throw new Error(
