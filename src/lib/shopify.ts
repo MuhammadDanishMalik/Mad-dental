@@ -30,6 +30,8 @@ export async function shopifyFetch<T>(
     },
     body: JSON.stringify({ query, variables }),
     cache: "no-store",
+  }).catch((err) => {
+    throw new Error(`Failed to fetch from Endpoint: [${ENDPOINT}]. Env domain: [${process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN}]. Env token: [${token ? "set" : "missing"}]. Raw error: ${err.message}`);
   });
 
   if (!res.ok) {
