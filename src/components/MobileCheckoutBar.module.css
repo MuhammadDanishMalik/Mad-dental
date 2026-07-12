@@ -1,0 +1,89 @@
+.mobileCheckoutBar {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .mobileCheckoutBar {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    padding: 16px 20px 24px 20px;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+    z-index: 9999;
+    border-top: 1px solid var(--border);
+  }
+
+  .summaryRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .subtotalLabel {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+
+  .priceContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .originalValue {
+    font-size: 1rem;
+    color: var(--text-muted);
+    text-decoration: line-through;
+    margin-right: 4px;
+  }
+
+  .totalValue {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #a81717; /* match screenshot dark red colour for price */
+  }
+
+  .checkoutBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px 0;
+    background: var(--accent-blue);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-bottom: 12px;
+  }
+
+  .checkoutBtn:hover {
+    background: var(--accent-blue-hover);
+  }
+
+  .lockIcon {
+    margin-right: 4px;
+  }
+
+  .continueShopping {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .continueShopping:hover {
+    text-decoration: underline;
+  }
+}

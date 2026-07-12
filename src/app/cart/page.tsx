@@ -51,6 +51,7 @@ export default function CartPage() {
         ? await removeFromCart(cartId, line.id)
         : await updateCartLine(cartId, line.id, newQty);
       setCart(updated);
+      window.dispatchEvent(new Event("cart-updated"));
       if (updated.totalQuantity === 0) clearCartIdCookie();
     } catch (err) {
       setError("Failed to update cart. Please try again.");
@@ -68,6 +69,7 @@ export default function CartPage() {
     try {
       const updated = await removeFromCart(cartId, lineId);
       setCart(updated);
+      window.dispatchEvent(new Event("cart-updated"));
       if (updated.totalQuantity === 0) clearCartIdCookie();
     } catch (err) {
       setError("Failed to remove item. Please try again.");

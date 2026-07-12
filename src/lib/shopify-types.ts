@@ -8,6 +8,8 @@ export interface Money {
 export interface CartLineMerchandise {
   id: string;            // variant GID
   title: string;         // variant title e.g. "Default Title"
+  price: Money;
+  compareAtPrice: Money | null;
   product: {
     title: string;       // product title
     featuredImage: {

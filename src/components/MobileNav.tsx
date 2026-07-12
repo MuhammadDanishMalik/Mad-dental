@@ -21,6 +21,15 @@ export default function MobileNav() {
       }
     }
     fetchCount();
+
+    const handleCartUpdate = () => fetchCount();
+    window.addEventListener("cart-updated", handleCartUpdate);
+    window.addEventListener("focus", handleCartUpdate);
+
+    return () => {
+      window.removeEventListener("cart-updated", handleCartUpdate);
+      window.removeEventListener("focus", handleCartUpdate);
+    };
   }, []);
 
   return (

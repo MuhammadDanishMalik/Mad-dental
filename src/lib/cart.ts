@@ -33,6 +33,8 @@ const CART_FIELDS = /* GraphQL */ `
             ... on ProductVariant {
               id
               title
+              price { amount currencyCode }
+              compareAtPrice { amount currencyCode }
               product {
                 title
                 featuredImage { url altText }

@@ -33,6 +33,7 @@ export default function AddToCartControls({ variantId }: { variantId: string }) 
         window.location.href = cart.checkoutUrl;
       } else {
         // "Add to cart" → go to cart page
+        window.dispatchEvent(new Event("cart-updated"));
         router.push("/cart");
       }
     } catch (err) {
